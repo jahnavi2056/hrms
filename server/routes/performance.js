@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { createReview, getMyReviews, getAllReviews, updateReview } from '../controllers/mainControllers.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.get('/my', getMyReviews);
+router.get('/', authorize('admin','senior_manager','hr_recruiter'), getAllReviews);
+router.post('/', authorize('admin','senior_manager','hr_recruiter'), createReview);
+router.put('/:id', authorize('admin','senior_manager','hr_recruiter'), updateReview);
+export default router;

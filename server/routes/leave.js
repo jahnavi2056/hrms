@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { applyLeave, getMyLeaves, getAllLeaves, updateLeaveStatus, cancelLeave } from '../controllers/mainControllers.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.post('/', applyLeave);
+router.get('/my', getMyLeaves);
+router.get('/', authorize('admin','hr_recruiter','senior_manager'), getAllLeaves);
+router.put('/:id/status', authorize('admin','hr_recruiter','senior_manager'), updateLeaveStatus);
+router.put('/:id/cancel', cancelLeave);
+export default router;

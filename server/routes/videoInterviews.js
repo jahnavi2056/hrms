@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { scheduleInterview, getInterviews, submitFeedback, cancelInterview } from '../controllers/videoInterviewController.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.get('/', getInterviews);
+router.post('/', authorize('admin','hr_recruiter','senior_manager'), scheduleInterview);
+router.put('/:id/feedback', authorize('admin','hr_recruiter','senior_manager'), submitFeedback);
+router.put('/:id/cancel', authorize('admin','hr_recruiter'), cancelInterview);
+export default router;

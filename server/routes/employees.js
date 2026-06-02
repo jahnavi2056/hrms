@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { getAllEmployees, getEmployee, createEmployee, updateEmployee, toggleEmployee, getDepartments, getOrgChart } from '../controllers/employeeController.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.get('/', getAllEmployees);
+router.get('/departments', getDepartments);
+router.get('/org-chart', getOrgChart);
+router.get('/:id', getEmployee);
+router.post('/', authorize('admin','hr_recruiter'), createEmployee);
+router.put('/:id', authorize('admin','hr_recruiter','senior_manager'), updateEmployee);
+router.patch('/:id/toggle', authorize('admin'), toggleEmployee);
+export default router;

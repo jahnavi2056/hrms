@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { generatePayroll, getMyPayslips, getPayrollSummary, bulkGeneratePayroll, markPayrollPaid } from '../controllers/mainControllers.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.get('/my', getMyPayslips);
+router.get('/summary', authorize('admin','senior_manager'), getPayrollSummary);
+router.post('/generate', authorize('admin'), generatePayroll);
+router.post('/bulk', authorize('admin'), bulkGeneratePayroll);
+router.put('/:id/paid', authorize('admin'), markPayrollPaid);
+export default router;

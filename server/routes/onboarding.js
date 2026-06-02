@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { createOnboarding, getOnboardings, getMyOnboarding, updateTask, addCustomTask } from '../controllers/onboardingController.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.get('/', getOnboardings);
+router.post('/', authorize('admin','hr_recruiter'), createOnboarding);
+router.get('/my', getMyOnboarding);
+router.put('/:onboardingId/tasks/:taskId', updateTask);
+router.post('/:id/tasks', authorize('admin','hr_recruiter'), addCustomTask);
+export default router;

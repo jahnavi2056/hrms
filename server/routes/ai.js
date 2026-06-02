@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { hrChat, generatePerformanceReview, getLeaveRiskAnalysis, getTeamRiskReport } from '../controllers/aiController.js';
+import { protect, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(protect);
+router.post('/chat', hrChat);
+router.post('/performance/:id/generate', authorize('admin','senior_manager','hr_recruiter'), generatePerformanceReview);
+router.get('/leave-risk/:id', authorize('admin','senior_manager','hr_recruiter'), getLeaveRiskAnalysis);
+router.get('/team-risk', authorize('admin','senior_manager'), getTeamRiskReport);
+export default router;
