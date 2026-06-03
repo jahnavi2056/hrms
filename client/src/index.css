@@ -14,9 +14,9 @@
     --border: rgba(15,23,42,0.08);
     --border-hover: rgba(15,23,42,0.16);
     --text-1: #0f172a;
-    --text-2: #334155;
-    --text-3: #64748b;
-    --text-4: #94a3b8;
+    --text-2: #212c3b;
+    --text-3: #2c333c;
+    --text-4: #333a42;
   }
   * { box-sizing: border-box; }
   html { @apply scroll-smooth; }
@@ -37,8 +37,8 @@
   .btn-secondary:hover { border-color: var(--border-hover); background: var(--surface-3); color: var(--text-1); }
   .btn-ghost { @apply btn px-4 py-2.5 text-sm; color: var(--text-3); }
   .btn-ghost:hover { background: var(--surface-3); color: var(--text-2); }
-  .btn-danger { @apply btn border px-4 py-2.5 text-sm; background: #fef2f2; color: #dc2626; border-color: #fecaca; }
-  .btn-danger:hover { background: #fee2e2; }
+  .btn-danger { @apply btn border px-4 py-2.5 text-sm; background: #50a0d1; color: #dc2626; border-color: #fecaca; }
+  .btn-danger:hover { background: #3fc0eb; }
   .btn-sm { @apply px-3 py-1.5 text-xs rounded-lg; }
   .btn-lg { @apply px-6 py-3.5 text-base rounded-2xl; }
   .btn-icon { @apply w-9 h-9 rounded-xl flex items-center justify-center; }
@@ -47,7 +47,7 @@
   .card { background: var(--surface-2); border: 1px solid var(--border); @apply rounded-2xl; box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04); }
   .card-interactive { @apply card transition-all duration-200 hover:-translate-y-0.5; }
   .card-interactive:hover { border-color: var(--border-hover); box-shadow: 0 4px 16px rgba(15,23,42,0.1); }
-  .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid var(--border); @apply rounded-2xl; }
+  .glass { background: rgba(93, 196, 247, 0.8); backdrop-filter: blur(12px); border: 1px solid var(--border); @apply rounded-2xl; }
 
   /* ── Form elements ── */
   .input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); @apply rounded-xl px-3.5 py-2.5 text-sm transition-all duration-200; color: var(--text-1); }
