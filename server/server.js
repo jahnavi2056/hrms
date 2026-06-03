@@ -21,6 +21,7 @@ import reportRoutes from './routes/reports.js';
 import onboardingRoutes from './routes/onboarding.js';
 import videoInterviewRoutes from './routes/videoInterviews.js';
 
+
 dotenv.config();
 connectDB();
 
@@ -52,6 +53,7 @@ app.use('/api/documents', documentRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/onboarding', onboardingRoutes);
 app.use('/api/interviews', videoInterviewRoutes);
+
 
 app.get('/health', (_, res) => res.json({ status: 'ok', version: '3.0', timestamp: new Date().toISOString() }));
 

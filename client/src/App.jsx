@@ -14,6 +14,7 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import ReportsPage from './pages/ReportsPage.jsx';
 import OnboardingPage from './pages/OnboardingPage.jsx';
 import VideoInterviewPage from './pages/VideoInterviewPage.jsx';
+import AIInterviewPage from './pages/AIInterviewPage.jsx';
 
 const Spinner = () => (
   <div className="fixed inset-0 flex items-center justify-center" style={{background:'var(--surface)'}}>
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="performance" element={<PerformancePage />} />
           <Route path="recruitment" element={<Guard roles={['admin','hr_recruiter','senior_manager']}><RecruitmentPage /></Guard>} />
           <Route path="interviews" element={<Guard roles={['admin','hr_recruiter','senior_manager']}><VideoInterviewPage /></Guard>} />
+          <Route path="ai-interview" element={<Guard roles={['admin','hr_recruiter','senior_manager']}><AIInterviewPage /></Guard>} />
           <Route path="onboarding" element={<OnboardingPage />} />
           <Route path="chatbot" element={<ChatbotPage />} />
           <Route path="reports" element={<Guard roles={['admin','senior_manager','hr_recruiter']}><ReportsPage /></Guard>} />

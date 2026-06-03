@@ -138,3 +138,96 @@ Return ONLY valid JSON:
   const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
   return JSON.parse(text);
 };
+
+// ─── AI FEATURE 5: Interview Conversation Analyzer ───────────────────────────
+export const analyzeInterviewConversation = async (transcript, candidateName, jobTitle) => {
+  const prompt = `You are an expert interview analyst. Analyze this interview transcript and return ONLY valid JSON.
+
+CANDIDATE: ${candidateName}
+ROLE: ${jobTitle}
+
+TRANSCRIPT:
+${transcript}
+
+Return ONLY this JSON (no markdown):
+{
+  "overallScore": <0-100>,
+  "communicationScore": <0-100>,
+  "technicalScore": <0-100>,
+  "confidenceScore": <0-100>,
+  "cultureFitScore": <0-100>,
+  "summary": "<3-4 sentence professional assessment>",
+  "keyStrengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
+  "redFlags": ["<concern 1>", "<concern 2>"],
+  "standoutMoments": ["<impressive moment 1>", "<impressive moment 2>"],
+  "recommendation": "<hire|maybe|reject>",
+  "nextSteps": "<recommended next action>",
+  "sentimentAnalysis": { "positive": <0-100>, "neutral": <0-100>, "negative": <0-100> }
+}`;
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-20250514', max_tokens: 1500,
+    messages: [{ role: 'user', content: prompt }]
+  });
+  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
+  return JSON.parse(text);
+};
+
+// ─── AI FEATURE 6: AI Interview Question Generator ───────────────────────────
+export const generateInterviewQuestions = async (jobTitle, department, skills, experienceLevel) => {
+  const prompt = `You are a senior technical interviewer. Generate a structured interview script.
+
+ROLE: ${jobTitle} | DEPARTMENT: ${department}
+SKILLS: ${skills.join(', ')} | LEVEL: ${experienceLevel}
+
+Return ONLY valid JSON (no markdown):
+{
+  "opening": "<warm 2-sentence opening>",
+  "questions": [
+    {
+      "category": "<technical|behavioral|situational|culture>",
+      "question": "<interview question>",
+      "followUp": "<follow-up probe>",
+      "goodAnswer": "<what a strong answer looks like>",
+      "redFlag": "<what a bad answer looks like>"
+    }
+  ],
+  "closing": "<professional closing statement>",
+  "evaluationCriteria": ["<criterion 1>", "<criterion 2>", "<criterion 3>"]
+}
+Generate exactly 8 questions: 3 technical, 2 behavioral, 2 situational, 1 culture.`;
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-20250514', max_tokens: 2000,
+    messages: [{ role: 'user', content: prompt }]
+  });
+  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
+  return JSON.parse(text);
+};
+
+// ─── AI FEATURE 7: Voice Screening Evaluator ─────────────────────────────────
+export const evaluateVoiceScreening = async (responses, candidateName, jobTitle) => {
+  const formatted = responses.map((r, i) => `Q${i+1}: ${r.question}\nA${i+1}: ${r.answer}`).join('\n\n');
+  const prompt = `You are an AI recruiter conducting initial candidate screening. Evaluate these Q&A responses.
+
+CANDIDATE: ${candidateName}
+ROLE: ${jobTitle}
+
+SCREENING RESPONSES:
+${formatted}
+
+Return ONLY valid JSON (no markdown):
+{
+  "screeningScore": <0-100>,
+  "verdict": "<proceed|hold|reject>",
+  "summary": "<2-3 sentence screening summary>",
+  "positives": ["<positive 1>", "<positive 2>"],
+  "concerns": ["<concern 1>"],
+  "recommendedInterviewType": "<technical|hr|panel|skip_to_offer>",
+  "notesForHR": "<internal notes for HR team>"
+}`;
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+    messages: [{ role: 'user', content: prompt }]
+  });
+  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
+  return JSON.parse(text);
+};
