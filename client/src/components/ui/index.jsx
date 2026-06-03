@@ -102,10 +102,6 @@ export const SectionHeader = ({ title, subtitle, action }) => (
   </div>
 );
 
-export const AIBadge = ({ label = 'AI Powered' }) => {
-  return (
-    <span className="ai-badge">
-      ✦ {label}
-    </span>
-  );
-};
+export const AIBadge = ({ label = 'AI Powered' }) => (
+  <span className="ai-badge">✦ {label}</span>
+);
