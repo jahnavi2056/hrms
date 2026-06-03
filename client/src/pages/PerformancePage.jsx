@@ -75,7 +75,7 @@ export default function PerformancePage() {
                     {tab==='all' && <Avatar name={`${r.employee?.firstName} ${r.employee?.lastName}`}/>}
                     <div>
                       {tab==='all' && <p className="font-semibold text-white">{r.employee?.firstName} {r.employee?.lastName}</p>}
-                      <p className="text-sm font-semibold text-white">{r.period} {r.year}</p>
+                      <p className="text-sm font-semibold text-gray-900">{r.period} {r.year}</p>
                       <p className="text-xs mt-0.5" style={{color:'var(--text-3)'}}>Reviewer: {r.reviewer?.firstName} {r.reviewer?.lastName}</p>
                     </div>
                   </div>
@@ -95,7 +95,7 @@ export default function PerformancePage() {
                 {r.kpis?.length > 0 && (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
                     {r.kpis.map((k,i) => (
-                      <div key={i} className="p-3 rounded-xl" style={{background:'var(--surface-3)'}}>
+                      <div key={i} className="p-3 rounded-xl" style={{background:'#f8fafc'}}>
                         <p className="text-xs" style={{color:'var(--text-3)'}}>{k.name}</p>
                         <p className="text-xl font-black text-white mt-1">{k.score}<span className="text-xs font-normal" style={{color:'var(--text-4)'}}>/10</span></p>
                         <div className="progress h-1 mt-2"><div className="progress-bar" style={{width:`${k.score*10}%`,background:k.score>=7?'#22c55e':k.score>=5?'#f59e0b':'#f43f5e'}}/></div>
@@ -138,7 +138,7 @@ export default function PerformancePage() {
             <p className="label mb-3">KPI Scores (0–10)</p>
             <div className="space-y-3">
               {form.kpis.map((k,i)=>(
-                <div key={i} className="p-3 rounded-xl" style={{background:'var(--surface-3)'}}>
+                <div key={i} className="p-3 rounded-xl" style={{background:'#f8fafc'}}>
                   <div className="flex items-center gap-3">
                     <div className="flex-1">
                       <p className="text-sm font-medium text-white">{k.name}</p>

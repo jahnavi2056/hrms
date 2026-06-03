@@ -107,7 +107,7 @@ export default function ChatbotPage() {
               <h1 className="page-title text-lg">ARIA</h1>
               <AIBadge label="Powered by Claude" />
             </div>
-            <p className="text-xs" style={{ color: 'var(--text-3)' }}>AI Resource Intelligence Assistant · FWC HR</p>
+            <p className="text-xs" style={{ color: '#64748b' }}>AI Resource Intelligence Assistant · FWC HR</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -116,7 +116,7 @@ export default function ChatbotPage() {
           )}
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
-            <span className="text-xs font-semibold text-brand-400">Online</span>
+            <span className="text-xs font-semibold text-green-600">Online</span>
           </div>
         </div>
       </div>
@@ -133,16 +133,16 @@ export default function ChatbotPage() {
                 className="px-4 py-3 rounded-2xl text-sm leading-relaxed"
                 style={m.role === 'user'
                   ? { background: 'linear-gradient(135deg,#22c55e,#16a34a)', color: '#fff', borderBottomRightRadius: '4px' }
-                  : { background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--text-2)', borderBottomLeftRadius: '4px' }
+                  : { background: '#ffffff', border: '1px solid var(--border)', color: '#334155', borderBottomLeftRadius: '4px' }
                 }
                 dangerouslySetInnerHTML={{ __html: formatMsg(m.content) }}
               />
               {m.role === 'assistant' && (
                 <div className="flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => speak(m.content)} className="text-[10px] px-2 py-0.5 rounded-md transition-colors" style={{ color: 'var(--text-4)', background: 'transparent' }} onMouseOver={e => e.target.style.color = 'var(--text-2)'} onMouseOut={e => e.target.style.color = 'var(--text-4)'}>
+                  <button onClick={() => speak(m.content)} className="text-[10px] px-2 py-0.5 rounded-md transition-colors" style={{ color: '#94a3b8', background: 'transparent' }} onMouseOver={e => e.target.style.color = 'var(--text-2)'} onMouseOut={e => e.target.style.color = 'var(--text-4)'}>
                     🔊 Listen
                   </button>
-                  <button onClick={() => navigator.clipboard.writeText(m.content)} className="text-[10px] px-2 py-0.5 rounded-md transition-colors" style={{ color: 'var(--text-4)' }}>
+                  <button onClick={() => navigator.clipboard.writeText(m.content)} className="text-[10px] px-2 py-0.5 rounded-md transition-colors" style={{ color: '#94a3b8' }}>
                     📋 Copy
                   </button>
                 </div>
@@ -153,7 +153,7 @@ export default function ChatbotPage() {
         {loading && (
           <div className="flex gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-base" style={{ background: 'linear-gradient(135deg,rgba(139,92,246,0.2),rgba(34,197,94,0.1))', border: '1px solid rgba(139,92,246,0.25)' }}>🤖</div>
-            <div className="px-4 py-3 rounded-2xl" style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderBottomLeftRadius: '4px' }}>
+            <div className="px-4 py-3 rounded-2xl" style={{ background: '#ffffff', border: '1px solid var(--border)', borderBottomLeftRadius: '4px' }}>
               <TypingDots />
             </div>
           </div>
@@ -164,10 +164,10 @@ export default function ChatbotPage() {
       {/* Quick prompts */}
       {messages.length <= 2 && !loading && (
         <div className="flex-shrink-0 py-3">
-          <p className="text-xs mb-2" style={{ color: 'var(--text-4)' }}>Quick questions:</p>
+          <p className="text-xs mb-2" style={{ color: '#94a3b8' }}>Quick questions:</p>
           <div className="flex flex-wrap gap-2">
             {QUICK.map((q, i) => (
-              <button key={i} onClick={() => send(q)} className="text-xs px-3 py-1.5 rounded-xl transition-all hover:-translate-y-0.5" style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
+              <button key={i} onClick={() => send(q)} className="text-xs px-3 py-1.5 rounded-xl transition-all hover:-translate-y-0.5" style={{ background: '#ffffff', border: '1px solid var(--border)', color: '#334155' }}>
                 {q}
               </button>
             ))}
@@ -201,7 +201,7 @@ export default function ChatbotPage() {
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
           </button>
         </div>
-        <p className="text-[11px] mt-2 text-center" style={{ color: 'var(--text-4)' }}>ARIA uses Claude AI · Voice input supported · Press Enter to send</p>
+        <p className="text-[11px] mt-2 text-center" style={{ color: '#94a3b8' }}>ARIA uses Claude AI · Voice input supported · Press Enter to send</p>
       </div>
     </div>
   );

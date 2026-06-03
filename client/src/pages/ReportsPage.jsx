@@ -10,7 +10,7 @@ const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="px-3 py-2 rounded-xl text-xs" style={{ background: 'var(--surface-4)', border: '1px solid var(--border)', color: 'var(--text-1)' }}>
+    <div className="px-3 py-2 rounded-xl text-xs" style={{ background: 'var(--surface-4)', border: '1px solid var(--border)', color: '#0f172a' }}>
       <p className="font-semibold mb-1">{label}</p>
       {payload.map((p, i) => <p key={i} style={{ color: p.color }}>{p.name}: {typeof p.value === 'number' && p.value > 1000 ? `₹${(p.value / 100000).toFixed(1)}L` : p.value}</p>)}
     </div>
@@ -52,7 +52,7 @@ export default function ReportsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="card p-5">
             <p className="text-3xl font-black text-white">{headcount.total}</p>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-3)' }}>Total Active Employees</p>
+            <p className="text-sm mt-1" style={{ color: '#64748b' }}>Total Active Employees</p>
           </div>
 
           <div className="card p-5">
@@ -61,7 +61,7 @@ export default function ReportsPage() {
               {headcount.byDept?.slice(0, 5).map((d, i) => (
                 <div key={d._id} className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: COLORS[i % COLORS.length] }} />
-                  <span className="text-xs flex-1 truncate" style={{ color: 'var(--text-2)' }}>{d._id || 'General'}</span>
+                  <span className="text-xs flex-1 truncate" style={{ color: '#334155' }}>{d._id || 'General'}</span>
                   <span className="text-xs font-bold text-white">{d.count}</span>
                   <div className="w-16 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                     <div className="h-full rounded-full" style={{ width: `${(d.count / headcount.total) * 100}%`, background: COLORS[i % COLORS.length] }} />
@@ -87,9 +87,9 @@ export default function ReportsPage() {
 
       {/* Payroll trend */}
       <div className="card p-5">
-        <h3 className="section-title mb-4">Monthly Payroll — {year}</h3>
+        <h3 className="text-base font-bold text-gray-900 mb-4">Monthly Payroll — {year}</h3>
         {prLoading ? <PageLoader /> : payrollChartData.length === 0
-          ? <p className="text-sm text-center py-8" style={{ color: 'var(--text-3)' }}>No payroll data for {year}</p>
+          ? <p className="text-sm text-center py-8" style={{ color: '#64748b' }}>No payroll data for {year}</p>
           : (
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={payrollChartData} barSize={20}>
@@ -105,9 +105,9 @@ export default function ReportsPage() {
 
       {/* Leave trends */}
       <div className="card p-5">
-        <h3 className="section-title mb-4">Leave Trends — {year}</h3>
+        <h3 className="text-base font-bold text-gray-900 mb-4">Leave Trends — {year}</h3>
         {lvLoading ? <PageLoader /> : leaveChartData.length === 0
-          ? <p className="text-sm text-center py-8" style={{ color: 'var(--text-3)' }}>No approved leave data for {year}</p>
+          ? <p className="text-sm text-center py-8" style={{ color: '#64748b' }}>No approved leave data for {year}</p>
           : (
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={leaveChartData}>
@@ -126,7 +126,7 @@ export default function ReportsPage() {
       {/* Export section */}
       <div className="card p-5">
         <h3 className="section-title mb-3">Export Reports</h3>
-        <p className="text-sm mb-4" style={{ color: 'var(--text-3)' }}>Download reports for compliance and audits</p>
+        <p className="text-sm mb-4" style={{ color: '#64748b' }}>Download reports for compliance and audits</p>
         <div className="flex flex-wrap gap-3">
           {[
             ['Headcount Report', 'CSV'],
@@ -136,7 +136,7 @@ export default function ReportsPage() {
           ].map(([name, fmt]) => (
             <button key={name} onClick={() => alert('Export feature: Connect to backend /reports/export endpoint for production')}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:-translate-y-0.5"
-              style={{ background: 'var(--surface-3)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
+              style={{ background: '#f8fafc', border: '1px solid var(--border)', color: '#334155' }}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
               {name} ({fmt})
             </button>

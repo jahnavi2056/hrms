@@ -7,7 +7,7 @@ import { StatCard, PageLoader, Avatar, Badge } from '../components/ui/index.jsx'
 const COLORS = ['#22c55e','#3b82f6','#8b5cf6','#f59e0b','#f43f5e','#06b6d4'];
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return <div className="px-3 py-2 rounded-xl text-xs" style={{background:'var(--surface-4)',border:'1px solid var(--border)',color:'var(--text-1)'}}><p className="font-semibold mb-1">{label}</p>{payload.map((p,i)=><p key={i} style={{color:p.color}}>{p.name}: {typeof p.value==='number'&&p.value>1000?`₹${(p.value/1000).toFixed(0)}k`:p.value}</p>)}</div>;
+  return <div className="px-3 py-2 rounded-xl text-xs" style={{background:'#f1f5f9',border:'1px solid var(--border)',color:'var(--text-1)'}}><p className="font-semibold mb-1">{label}</p>{payload.map((p,i)=><p key={i} style={{color:p.color}}>{p.name}: {typeof p.value==='number'&&p.value>1000?`₹${(p.value/1000).toFixed(0)}k`:p.value}</p>)}</div>;
 };
 
 export default function DashboardPage() {
@@ -29,9 +29,9 @@ export default function DashboardPage() {
           <h1 className="page-title">{greet()}, {user?.firstName} 👋</h1>
           <p className="text-sm mt-1" style={{color:'var(--text-3)'}}>{new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</p>
         </div>
-        <div className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{background:'rgba(34,197,94,0.08)',border:'1px solid rgba(34,197,94,0.15)'}}>
+        <div className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{background:'#f0fdf4',border:'1px solid #bbf7d0'}}>
           <span className="w-2 h-2 rounded-full bg-brand-400 animate-pulse-green"/>
-          <span className="text-xs font-semibold text-brand-400">System Live</span>
+          <span className="text-xs font-semibold text-green-700">System Live</span>
         </div>
       </div>
 

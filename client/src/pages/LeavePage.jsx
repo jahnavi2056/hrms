@@ -102,7 +102,7 @@ export default function LeavePage() {
               {!allLeaves?.length && <tr><td colSpan={6}><Empty/></td></tr>}
               {allLeaves?.map(l=>(
                 <tr key={l._id}>
-                  <td><div className="flex items-center gap-2.5"><Avatar name={`${l.employee?.firstName} ${l.employee?.lastName}`} size="sm"/><div><p className="text-sm font-semibold text-white">{l.employee?.firstName} {l.employee?.lastName}</p><p className="text-xs" style={{color:'var(--text-3)'}}>{l.employee?.department}</p></div></div></td>
+                  <td><div className="flex items-center gap-2.5"><Avatar name={`${l.employee?.firstName} ${l.employee?.lastName}`} size="sm"/><div><p className="text-sm font-semibold text-gray-900">{l.employee?.firstName} {l.employee?.lastName}</p><p className="text-xs" style={{color:'var(--text-3)'}}>{l.employee?.department}</p></div></div></td>
                   <td className="capitalize">{l.type}</td>
                   <td>{new Date(l.startDate).toLocaleDateString()} – {new Date(l.endDate).toLocaleDateString()}</td>
                   <td>{l.days}</td>

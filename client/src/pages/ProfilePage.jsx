@@ -67,10 +67,10 @@ export default function ProfilePage() {
           </div>
           <div>
             <h2 className="text-xl font-bold text-white">{user?.firstName} {user?.lastName}</h2>
-            <p className="text-sm mt-0.5" style={{ color: 'var(--text-3)' }}>{user?.email}</p>
+            <p className="text-sm mt-0.5" style={{ color: '#64748b' }}>{user?.email}</p>
             <div className="flex items-center gap-2 mt-2">
               <Badge status={user?.role} />
-              <span className="text-xs px-2 py-1 rounded-lg" style={{ background: 'var(--surface-3)', color: 'var(--text-3)' }}>{user?.department}</span>
+              <span className="text-xs px-2 py-1 rounded-lg" style={{ background: '#f8fafc', color: '#64748b' }}>{user?.department}</span>
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function ProfilePage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6 pt-5 border-t" style={{ borderColor: 'var(--border)' }}>
           {INFO.map(([k, v]) => (
             <div key={k}>
-              <p className="text-xs" style={{ color: 'var(--text-4)' }}>{k}</p>
+              <p className="text-xs" style={{ color: '#94a3b8' }}>{k}</p>
               <p className="text-sm font-semibold text-white mt-0.5">{v || '—'}</p>
             </div>
           ))}
@@ -95,7 +95,7 @@ export default function ProfilePage() {
       {/* Edit Info */}
       {tab === 'info' && (
         <div className="card p-5">
-          <h3 className="section-title mb-4">Edit Profile</h3>
+          <h3 className="text-base font-bold text-gray-900 mb-4">Edit Profile</h3>
           <div className="grid grid-cols-2 gap-4">
             <FormField label="First Name"><input value={profileForm.firstName} onChange={e => setProfileForm(f => ({ ...f, firstName: e.target.value }))} className="input" /></FormField>
             <FormField label="Last Name"><input value={profileForm.lastName} onChange={e => setProfileForm(f => ({ ...f, lastName: e.target.value }))} className="input" /></FormField>
@@ -111,7 +111,7 @@ export default function ProfilePage() {
       {/* Security */}
       {tab === 'security' && (
         <div className="card p-5">
-          <h3 className="section-title mb-4">Change Password</h3>
+          <h3 className="text-base font-bold text-gray-900 mb-4">Change Password</h3>
           <div className="space-y-4 max-w-sm">
             <FormField label="Current Password"><input type="password" value={pwForm.currentPassword} onChange={e => setPwForm(f => ({ ...f, currentPassword: e.target.value }))} className="input" /></FormField>
             <FormField label="New Password"><input type="password" value={pwForm.newPassword} onChange={e => setPwForm(f => ({ ...f, newPassword: e.target.value }))} className="input" /></FormField>
@@ -129,17 +129,17 @@ export default function ProfilePage() {
       {/* Skills */}
       {tab === 'skills' && (
         <div className="card p-5">
-          <h3 className="section-title mb-4">Skills & Expertise</h3>
+          <h3 className="text-base font-bold text-gray-900 mb-4">Skills & Expertise</h3>
           <div className="flex gap-2 mb-4">
             <input value={skillInput} onChange={e => setSkillInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addSkill()} className="input flex-1" placeholder="Add a skill (e.g. React, Python)" />
             <button onClick={addSkill} className="btn-primary">Add</button>
           </div>
           {skills.length === 0
-            ? <p className="text-sm" style={{ color: 'var(--text-3)' }}>No skills added yet</p>
+            ? <p className="text-sm" style={{ color: '#64748b' }}>No skills added yet</p>
             : (
               <div className="flex flex-wrap gap-2">
                 {skills.map(s => (
-                  <div key={s} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm" style={{ background: 'var(--surface-3)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
+                  <div key={s} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm" style={{ background: '#f8fafc', border: '1px solid var(--border)', color: '#334155' }}>
                     {s}
                     <button onClick={() => removeSkill(s)} className="text-xs text-red-400 hover:text-red-300 ml-1">✕</button>
                   </div>

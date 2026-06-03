@@ -73,7 +73,7 @@ export default function PayrollPage() {
                 {!summary?.payrolls?.length && <tr><td colSpan={10}><Empty message="No payroll data. Click Generate Payroll."/></td></tr>}
                 {summary?.payrolls?.map(p=>(
                   <tr key={p._id}>
-                    <td><div className="flex items-center gap-2"><Avatar name={`${p.employee?.firstName} ${p.employee?.lastName}`} size="sm"/><div><p className="text-sm font-semibold text-white">{p.employee?.firstName} {p.employee?.lastName}</p><p className="text-xs" style={{color:'var(--text-3)'}}>{p.employee?.employeeId}</p></div></div></td>
+                    <td><div className="flex items-center gap-2"><Avatar name={`${p.employee?.firstName} ${p.employee?.lastName}`} size="sm"/><div><p className="text-sm font-semibold text-gray-900">{p.employee?.firstName} {p.employee?.lastName}</p><p className="text-xs" style={{color:'var(--text-3)'}}>{p.employee?.employeeId}</p></div></div></td>
                     <td>{p.employee?.department}</td>
                     <td>{f(p.basicSalary)}</td>
                     <td>{f(p.hra)}</td>

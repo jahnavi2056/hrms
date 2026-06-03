@@ -70,7 +70,7 @@ export default function OnboardingPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="page-title">Employee Onboarding</h1>
-          <p className="text-sm mt-0.5" style={{ color: 'var(--text-3)' }}>
+          <p className="text-sm mt-0.5" style={{ color: '#64748b' }}>
             {user.role === 'employee' ? 'Your onboarding journey' : `${stats.total} employees · ${stats.inProgress} in progress`}
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function OnboardingPage() {
                   <span style={{ color:'var(--text-3)' }}>Progress</span>
                   <span className="font-semibold text-white">{o.progress}%</span>
                 </div>
-                <div className="h-1.5 rounded-full overflow-hidden" style={{ background:'var(--surface-3)' }}>
+                <div className="h-1.5 rounded-full overflow-hidden" style={{ background:'#f8fafc' }}>
                   <div className="h-full rounded-full bg-brand-500 transition-all" style={{ width:`${o.progress}%` }} />
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function OnboardingPage() {
                     <div className="text-xs" style={{ color:'var(--text-3)' }}>Complete</div>
                   </div>
                 </div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ background:'var(--surface-3)' }}>
+                <div className="h-2 rounded-full overflow-hidden" style={{ background:'#f8fafc' }}>
                   <div className="h-full rounded-full bg-gradient-to-r from-brand-500 to-cyan-500 transition-all duration-700" style={{ width:`${activeBoard.progress}%` }} />
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function OnboardingPage() {
                   <div className="space-y-2">
                     {tasks.map(task => (
                       <div key={task._id} className={`flex items-start gap-3 p-3 rounded-xl transition-all ${task.completed ? 'opacity-60' : ''}`}
-                        style={{ background:'var(--surface-3)' }}>
+                        style={{ background:'#f8fafc' }}>
                         <button
                           onClick={() => taskMut.mutate({ onboardingId: activeBoard._id, taskId: task._id, completed: !task.completed })}
                           className={`w-5 h-5 mt-0.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${task.completed ? 'bg-green-500 border-green-500' : 'border-white/20 hover:border-brand-400'}`}>

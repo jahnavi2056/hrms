@@ -67,7 +67,7 @@ export default function RecruitmentPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="page-title">Recruitment Pipeline</h1>
-          <p className="text-sm mt-0.5" style={{ color: 'var(--text-3)' }}>{jobs.length} jobs · {openCounts} open</p>
+          <p className="text-sm mt-0.5" style={{ color: '#64748b' }}>{jobs.length} jobs · {openCounts} open</p>
         </div>
         <button onClick={() => setShowJob(true)} className="btn-primary">+ Post Job</button>
       </div>
@@ -75,7 +75,7 @@ export default function RecruitmentPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-5" style={{ minHeight: '60vh' }}>
         {/* Jobs list */}
         <div className="lg:col-span-2 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-3)' }}>Open Positions</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>Open Positions</p>
           {jobsLoading && <PageLoader />}
           {!jobsLoading && jobs.length === 0 && <Empty message="No jobs posted yet" />}
           {jobs.map(j => (
@@ -86,14 +86,14 @@ export default function RecruitmentPage() {
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white truncate">{j.title}</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-3)' }}>{j.department} · {j.location}</p>
+                  <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{j.department} · {j.location}</p>
                 </div>
                 <Badge status={j.status} />
               </div>
               <div className="flex items-center gap-3 mt-3">
-                <span className="text-xs px-2 py-0.5 rounded-md capitalize" style={{ background: 'var(--surface-3)', color: 'var(--text-3)' }}>{j.type.replace('_', ' ')}</span>
-                <span className="text-xs" style={{ color: 'var(--text-3)' }}>{j.applicants || 0} applicants</span>
-                <span className="text-xs" style={{ color: 'var(--text-3)' }}>{j.openings} openings</span>
+                <span className="text-xs px-2 py-0.5 rounded-md capitalize" style={{ background: '#f8fafc', color: '#64748b' }}>{j.type.replace('_', ' ')}</span>
+                <span className="text-xs" style={{ color: '#64748b' }}>{j.applicants || 0} applicants</span>
+                <span className="text-xs" style={{ color: '#64748b' }}>{j.openings} openings</span>
               </div>
             </div>
           ))}
@@ -102,11 +102,11 @@ export default function RecruitmentPage() {
         {/* Candidates panel */}
         <div className="lg:col-span-3">
           {!activeJob ? (
-            <div className="h-full flex flex-col items-center justify-center py-20" style={{ background: 'var(--surface-2)', borderRadius: '16px', border: '1px solid var(--border)' }}>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--surface-3)' }}>
-                <svg className="w-7 h-7" style={{ color: 'var(--text-4)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            <div className="h-full flex flex-col items-center justify-center py-20" style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid var(--border)' }}>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: '#f8fafc' }}>
+                <svg className="w-7 h-7" style={{ color: '#94a3b8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               </div>
-              <p className="text-sm" style={{ color: 'var(--text-3)' }}>Select a job to view candidates</p>
+              <p className="text-sm" style={{ color: '#64748b' }}>Select a job to view candidates</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -138,9 +138,9 @@ export default function RecruitmentPage() {
                           )}
                           {c.aiScore != null && <AIBadge />}
                         </div>
-                        <p className="text-xs mt-0.5" style={{ color: 'var(--text-3)' }}>{c.email} {c.phone && `· ${c.phone}`}</p>
+                        <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{c.email} {c.phone && `· ${c.phone}`}</p>
                         {(c.experience > 0 || c.expectedCtc > 0) && (
-                          <p className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>
+                          <p className="text-xs mt-1" style={{ color: '#64748b' }}>
                             {c.experience > 0 && `${c.experience} yrs exp`}
                             {c.experience > 0 && c.expectedCtc > 0 && ' · '}
                             {c.expectedCtc > 0 && `₹${(c.expectedCtc / 100000).toFixed(1)}L CTC`}
@@ -154,7 +154,7 @@ export default function RecruitmentPage() {
                     </div>
 
                     {c.aiAnalysis && (
-                      <div className="mt-3 p-3 rounded-xl text-xs leading-relaxed" style={{ background: 'var(--surface-3)', color: 'var(--text-2)' }}>
+                      <div className="mt-3 p-3 rounded-xl text-xs leading-relaxed" style={{ background: '#f8fafc', color: '#334155' }}>
                         {c.aiAnalysis}
                       </div>
                     )}
@@ -250,3 +250,5 @@ export default function RecruitmentPage() {
     </div>
   );
 }
+
+// Note: bulk screening export - append after existing RecruitmentPage

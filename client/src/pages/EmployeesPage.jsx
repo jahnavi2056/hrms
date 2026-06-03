@@ -106,7 +106,7 @@ export default function EmployeesPage() {
                     <div className="flex items-center gap-3">
                       <Avatar name={`${emp.firstName} ${emp.lastName}`} size="sm"/>
                       <div>
-                        <p className="text-sm font-semibold text-white">{emp.firstName} {emp.lastName}</p>
+                        <p className="text-sm font-semibold text-gray-900">{emp.firstName} {emp.lastName}</p>
                         <p className="text-xs" style={{color:'var(--text-3)'}}>{emp.email}</p>
                       </div>
                     </div>
@@ -131,7 +131,7 @@ export default function EmployeesPage() {
           </table>
         )}
         {data?.pages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t" style={{borderColor:'var(--border)'}}>
+          <div className="flex items-center justify-between px-4 py-3 border-t" style={{borderColor:'#e2e8f0'}}>
             <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page===1} className="btn-secondary btn-sm disabled:opacity-40">← Prev</button>
             <span className="text-xs" style={{color:'var(--text-3)'}}>Page {page} of {data.pages}</span>
             <button onClick={() => setPage(p => Math.min(data.pages, p+1))} disabled={page===data.pages} className="btn-secondary btn-sm disabled:opacity-40">Next →</button>

@@ -120,12 +120,12 @@ export default function VideoInterviewPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="p-3 rounded-xl" style={{ background:'var(--surface-3)' }}>
+              <div className="p-3 rounded-xl" style={{ background:'#f8fafc' }}>
                 <p className="text-xs mb-1" style={{ color:'var(--text-3)' }}>Date & Time</p>
                 <p className="font-semibold text-white">{new Date(iv.scheduledAt).toLocaleDateString()}</p>
                 <p className="text-xs text-brand-400">{new Date(iv.scheduledAt).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}</p>
               </div>
-              <div className="p-3 rounded-xl" style={{ background:'var(--surface-3)' }}>
+              <div className="p-3 rounded-xl" style={{ background:'#f8fafc' }}>
                 <p className="text-xs mb-1" style={{ color:'var(--text-3)' }}>Duration</p>
                 <p className="font-semibold text-white">{iv.duration} minutes</p>
                 <p className="text-xs text-brand-400">{iv.interviewers?.length || 0} interviewer(s)</p>
@@ -145,7 +145,7 @@ export default function VideoInterviewPage() {
             )}
 
             {iv.status === 'completed' && iv.feedback && (
-              <div className="p-3 rounded-xl" style={{ background:'var(--surface-3)' }}>
+              <div className="p-3 rounded-xl" style={{ background:'#f8fafc' }}>
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-xs font-semibold" style={{ color:'var(--text-3)' }}>Feedback</p>
                   <div className="flex gap-0.5">
