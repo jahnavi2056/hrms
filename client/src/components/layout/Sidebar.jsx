@@ -42,7 +42,7 @@ export default function Sidebar() {
           FW
         </div>
         <div>
-          <p className="text-sm font-bold text-white leading-tight">FWC HRMS</p>
+          <p className="text-sm font-bold text- leading-tight">FWC HRMS</p>
           <p className="text-[10px] font-mono" style={{color:'var(--text-3)'}}>AI Platform v3.0</p>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function Sidebar() {
         {visible.map(item => (
           <NavLink key={item.to} to={item.to} className={({ isActive }) =>
             `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 relative
-             ${isActive ? 'text-white' : 'text-white/40 hover:text-white/70'}`
+             ${isActive ? 'text-black' : 'text-black/40 hover:text-black/70'}`
           } style={({ isActive }) => isActive ? {background:'rgba(34,197,94,0.1)',borderLeft:'2px solid #22c55e',paddingLeft:'10px'} : {}}>
             {({ isActive }) => <>
               <Icon path={item.icon} active={isActive}/>
@@ -66,7 +66,7 @@ export default function Sidebar() {
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white/80 truncate group-hover:text-white">{user?.firstName} {user?.lastName}</p>
+            <p className="text-sm font-semibold text-black/80 truncate group-hover:text-black">{user?.firstName} {user?.lastName}</p>
             <p className="text-[11px] truncate" style={{color:role.color}}>{role.label}</p>
           </div>
           <svg className="w-3.5 h-3.5 flex-shrink-0" style={{color:'var(--text-4)'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>

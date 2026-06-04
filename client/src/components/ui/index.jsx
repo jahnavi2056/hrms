@@ -17,11 +17,11 @@ export const PageLoader = () => (
 export const Empty = ({ message = 'No data found' }) => (
   <div className="py-16 text-center">
     <div className="w-12 h-12 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-gray-100">
-      <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
       </svg>
     </div>
-    <p className="text-sm text-gray-400">{message}</p>
+    <p className="text-sm text-green-400">{message}</p>
   </div>
 );
 
@@ -34,7 +34,7 @@ export const Modal = ({ open, onClose, title, children, size = 'md' }) => {
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <h2 className="text-base font-bold text-gray-900">{title}</h2>
           <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors">
-            <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
@@ -59,8 +59,8 @@ export const StatCard = ({ label, value, sub, icon, color = '#16a34a', trend }) 
       )}
     </div>
     <p className="text-2xl font-bold text-gray-900 mb-1">{value}</p>
-    <p className="text-sm font-semibold text-gray-600">{label}</p>
-    {sub && <p className="text-xs mt-0.5 text-gray-400">{sub}</p>}
+    <p className="text-sm font-semibold text-gray-900">{label}</p>
+    {sub && <p className="text-xs mt-0.5 text-gray-900">{sub}</p>}
   </div>
 );
 
@@ -96,7 +96,7 @@ export const SectionHeader = ({ title, subtitle, action }) => (
   <div className="flex items-start justify-between mb-5">
     <div>
       <h2 className="text-base font-bold text-gray-900">{title}</h2>
-      {subtitle && <p className="text-sm mt-0.5 text-gray-500">{subtitle}</p>}
+      {subtitle && <p className="text-sm mt-0.5 text-gray-900">{subtitle}</p>}
     </div>
     {action}
   </div>
