@@ -1,60 +1,66 @@
-import { analyzeInterviewConversation, generateInterviewQuestions, evaluateVoiceScreening } from '../ai/aiServices.js';
 import VideoInterview from '../models/VideoInterview.js';
 import { Candidate, Job } from '../models/Recruitment.js';
+import { analyzeInterview, generateInterviewQuestions, screenCandidateForInterview } from '../ai/aiServices.js';
 
-export const analyzeTranscript = async (req, res) => {
+// POST /api/ai/interview/:id/analyze
+export const analyzeInterviewAI = async (req, res) => {
   try {
-    const { transcript } = req.body;
-    if (!transcript?.trim()) return res.status(400).json({ error: 'Transcript is required' });
     const interview = await VideoInterview.findById(req.params.id)
-      .populate('candidate', 'name')
-      .populate('job', 'title');
+      .populate('candidate', 'name email stage resumeText aiScore')
+      .populate('job', 'title department requirements skills')
+      .populate('interviewers', 'firstName lastName');
+
     if (!interview) return res.status(404).json({ error: 'Interview not found' });
-    const result = await analyzeInterviewConversation(
-      transcript,
-      interview.candidate?.name || 'Candidate',
-      interview.job?.title || 'Role'
-    );
+
+    const result = await analyzeInterview(interview);
+
+    // Save analysis to interview
     await VideoInterview.findByIdAndUpdate(req.params.id, {
-      aiTranscriptSummary: result.summary,
-      'feedback.rating': Math.round(result.overallScore / 20),
-      'feedback.recommendation': result.recommendation,
-      'feedback.notes': result.summary,
+      aiAnalysis: result
     });
-    res.json(result);
-  } catch (err) { res.status(500).json({ error: err.message }); }
+
+    res.json({ analysis: result, interview: { id: interview._id, candidate: interview.candidate?.name, role: interview.job?.title } });
+  } catch (err) {
+    console.error('Interview analyze error:', err);
+    res.status(500).json({ error: err.message });
+  }
 };
 
-export const getInterviewQuestions = async (req, res) => {
+// GET /api/ai/interview/:id/generate
+export const generateQuestionsAI = async (req, res) => {
   try {
-    const { jobId } = req.params;
-    const { experienceLevel = 'mid' } = req.query;
-    const job = await Job.findById(jobId);
-    if (!job) return res.status(404).json({ error: 'Job not found' });
+    const interview = await VideoInterview.findById(req.params.id)
+      .populate('job', 'title department requirements skills');
+
+    if (!interview) return res.status(404).json({ error: 'Interview not found' });
+
     const result = await generateInterviewQuestions(
-      job.title, job.department,
-      job.skills || [], experienceLevel
+      interview.job?.title || 'General',
+      interview.job?.department || 'General',
+      interview.type || 'technical'
     );
-    res.json(result);
-  } catch (err) { res.status(500).json({ error: err.message }); }
+
+    res.json({ questions: result, interviewType: interview.type });
+  } catch (err) {
+    console.error('Generate questions error:', err);
+    res.status(500).json({ error: err.message });
+  }
 };
 
-export const screenVoiceCandidate = async (req, res) => {
+// POST /api/ai/interview/:id/screen
+export const screenCandidateAI = async (req, res) => {
   try {
-    const { candidateId, responses } = req.body;
-    if (!responses?.length) return res.status(400).json({ error: 'Responses required' });
-    const candidate = await Candidate.findById(candidateId).populate('job');
-    if (!candidate) return res.status(404).json({ error: 'Candidate not found' });
-    const result = await evaluateVoiceScreening(
-      responses, candidate.name,
-      candidate.job?.title || 'Position'
-    );
-    await Candidate.findByIdAndUpdate(candidateId, {
-      aiScreeningScore: result.screeningScore,
-      aiScreeningVerdict: result.verdict,
-      aiScreeningSummary: result.summary,
-      stage: result.verdict === 'proceed' ? 'interview' : result.verdict === 'reject' ? 'rejected' : 'screening'
-    });
-    res.json(result);
-  } catch (err) { res.status(500).json({ error: err.message }); }
+    const interview = await VideoInterview.findById(req.params.id)
+      .populate('candidate')
+      .populate('job');
+
+    if (!interview) return res.status(404).json({ error: 'Interview not found' });
+
+    const result = await screenCandidateForInterview(interview.candidate, interview.job);
+
+    res.json({ screening: result, candidate: interview.candidate?.name });
+  } catch (err) {
+    console.error('Screen candidate error:', err);
+    res.status(500).json({ error: err.message });
+  }
 };
