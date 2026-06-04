@@ -83,6 +83,13 @@ app.get('/api/health/ai', (_, res) => {
     anthropicKey: Boolean(process.env.ANTHROPIC_API_KEY),
     clientUrl: process.env.CLIENT_URL || null
   });
+  app.get('/', (_, res) => {
+  res.json({
+    message: 'FWC HRMS Backend is running',
+    health: '/health',
+    aiHealth: '/api/health/ai'
+  });
+});
 });
 
 io.on('connection', (socket) => {
