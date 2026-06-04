@@ -51,7 +51,7 @@ export default function ReportsPage() {
       {hcLoading ? <PageLoader /> : headcount && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="card p-5">
-            <p className="text-3xl font-black text-white">{headcount.total}</p>
+            <p className="text-3xl font-black text-black">{headcount.total}</p>
             <p className="text-sm mt-1" style={{ color: '#64748b' }}>Total Active Employees</p>
           </div>
 
@@ -62,7 +62,7 @@ export default function ReportsPage() {
                 <div key={d._id} className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: COLORS[i % COLORS.length] }} />
                   <span className="text-xs flex-1 truncate" style={{ color: '#334155' }}>{d._id || 'General'}</span>
-                  <span className="text-xs font-bold text-white">{d.count}</span>
+                  <span className="text-xs font-bold text-black">{d.count}</span>
                   <div className="w-16 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                     <div className="h-full rounded-full" style={{ width: `${(d.count / headcount.total) * 100}%`, background: COLORS[i % COLORS.length] }} />
                   </div>
