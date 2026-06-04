@@ -1,8 +1,39 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY
+});
 
-// ─── AI FEATURE 1: Resume Screener ──────────────────────────────────────────
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-4-6';
+
+const parseClaudeJSON = (msg) => {
+  try {
+    const text = msg.content?.[0]?.text || '{}';
+
+    const cleaned = text
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
+    return JSON.parse(cleaned);
+  } catch (error) {
+    console.error('Claude JSON Parse Error:', error);
+    console.error('Raw Claude Response:', JSON.stringify(msg, null, 2));
+    throw new Error('Invalid JSON returned from Claude');
+  }
+};
+
+const askClaudeJSON = async (prompt, maxTokens = 1200) => {
+  const msg = await client.messages.create({
+    model: CLAUDE_MODEL,
+    max_tokens: maxTokens,
+    messages: [{ role: 'user', content: prompt }]
+  });
+
+  return parseClaudeJSON(msg);
+};
+
+// Resume Screener
 export const screenResume = async (resumeText, job) => {
   const prompt = `You are a senior technical recruiter. Analyze this resume for the job and return ONLY valid JSON.
 
@@ -14,94 +45,82 @@ DESCRIPTION: ${job.description || ''}
 RESUME:
 ${resumeText}
 
-Return ONLY this JSON (no markdown, no text outside JSON):
+Return ONLY this JSON:
 {
-  "score": <number 0-100>,
-  "analysis": "<2-3 sentence professional analysis>",
-  "strengths": ["<strength1>", "<strength2>", "<strength3>"],
-  "weaknesses": ["<gap1>", "<gap2>"],
-  "recommendation": "<hire|maybe|reject>",
+  "score": 80,
+  "analysis": "Professional analysis here",
+  "strengths": ["strength1", "strength2", "strength3"],
+  "weaknesses": ["gap1", "gap2"],
+  "recommendation": "hire",
   "fitScore": {
-    "technical": <0-100>,
-    "experience": <0-100>,
-    "cultural": <0-100>
+    "technical": 80,
+    "experience": 75,
+    "cultural": 85
   },
-  "suggestedRole": "<role title if different>"
+  "suggestedRole": "role title"
 }`;
 
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1200,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
-  return JSON.parse(text);
+  return askClaudeJSON(prompt, 1200);
 };
 
-// ─── AI FEATURE 2: HR Chatbot ────────────────────────────────────────────────
-const HR_SYSTEM = `You are ARIA (AI Resource Intelligence Assistant), the intelligent HR assistant for FWC IT Services Pvt. Ltd. You are helpful, professional, and empathetic.
+// HR Chatbot
+const HR_SYSTEM = `You are ARIA, the intelligent HR assistant for FWC IT Services Pvt. Ltd.
+Be helpful, professional, concise, and empathetic.
 
-COMPANY POLICIES:
-- Annual leave: 18 days/year | Sick leave: 12 days/year | Casual leave: 6 days/year
+Company Policies:
+- Annual leave: 18 days/year
+- Sick leave: 12 days/year
+- Casual leave: 6 days/year
 - Work hours: 9:00 AM – 6:00 PM, Monday to Friday
 - Salary credited: Last working day of each month
-- Notice period: 90 days for all employees
+- Notice period: 90 days
 - Probation: 3 months
-- Starting CTC: ₹10 LPA (post training)
-- Training bond: 3 years mandatory
-- Growth: 20-40% hike based on performance
-
-You can help with: leave policies, attendance, payroll queries, company policies, HR procedures, onboarding, benefits, performance reviews, career growth.
-For sensitive issues (termination, legal), escalate to HR Manager.
-Be concise but thorough. Use bullet points for lists. Format nicely.`;
+- Starting CTC: ₹10 LPA post training
+- Training bond: 3 years mandatory`;
 
 export const chatWithHR = async (messages) => {
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
+    model: CLAUDE_MODEL,
     max_tokens: 1200,
     system: HR_SYSTEM,
     messages
   });
-  return response.content[0].text;
+
+  return response.content?.[0]?.text || 'Sorry, I could not generate a response.';
 };
 
-// ─── AI FEATURE 3: Performance Analyser ─────────────────────────────────────
+// Performance Analyzer
 export const analysePerformance = async (employee, kpis, period, year) => {
   const kpiText = kpis.map(k =>
-    `• ${k.name}: Target=${k.target}, Actual=${k.actual}, Score=${k.score}/10 (Weight: ${k.weight || 25}%)`
+    `• ${k.name}: Target=${k.target}, Actual=${k.actual}, Score=${k.score}/10, Weight=${k.weight || 25}%`
   ).join('\n');
 
-  const prompt = `You are an expert HR performance consultant. Write a professional performance review.
+  const prompt = `You are an expert HR performance consultant. Return ONLY valid JSON.
 
 EMPLOYEE: ${employee.firstName} ${employee.lastName}
-DEPARTMENT: ${employee.department} | DESIGNATION: ${employee.designation}
+DEPARTMENT: ${employee.department}
+DESIGNATION: ${employee.designation}
 REVIEW PERIOD: ${period} ${year}
 
 KPI PERFORMANCE:
 ${kpiText}
 
-Return ONLY valid JSON:
+Return ONLY this JSON:
 {
-  "overallRating": <1.0-5.0>,
-  "weightedScore": <0-100>,
-  "review": "<4-5 sentence professional narrative review>",
-  "strengths": ["<specific strength 1>", "<specific strength 2>", "<specific strength 3>"],
-  "improvements": ["<actionable improvement 1>", "<actionable improvement 2>"],
-  "goals": ["<SMART goal for next period 1>", "<SMART goal 2>"],
-  "promotionReadiness": "<not_ready|developing|ready|highly_ready>",
-  "recommendations": "<2-3 sentences on next steps>"
+  "overallRating": 4.2,
+  "weightedScore": 84,
+  "review": "Professional performance review here",
+  "strengths": ["strength1", "strength2", "strength3"],
+  "improvements": ["improvement1", "improvement2"],
+  "goals": ["goal1", "goal2"],
+  "promotionReadiness": "ready",
+  "recommendations": "Next steps here"
 }`;
 
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1500,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
-  return JSON.parse(text);
+  return askClaudeJSON(prompt, 1500);
 };
 
-// ─── AI FEATURE 4: Leave Risk Predictor ─────────────────────────────────────
+// Leave Risk Predictor
 export const predictLeaveRisk = async (employee, attendanceHistory) => {
   const summary = {
     total: attendanceHistory.length,
@@ -114,32 +133,27 @@ export const predictLeaveRisk = async (employee, attendanceHistory) => {
       : 0
   };
 
-  const prompt = `Analyze this employee's attendance and predict absenteeism risk.
+  const prompt = `Analyze this employee's attendance and return ONLY valid JSON.
 
-EMPLOYEE: ${employee.firstName} ${employee.lastName} | DEPT: ${employee.department}
-3-MONTH SUMMARY: ${JSON.stringify(summary)}
+EMPLOYEE: ${employee.firstName} ${employee.lastName}
+DEPARTMENT: ${employee.department}
+SUMMARY: ${JSON.stringify(summary)}
 
-Return ONLY valid JSON:
+Return ONLY this JSON:
 {
-  "riskLevel": "<low|medium|high|critical>",
-  "riskScore": <0-100>,
-  "pattern": "<observed attendance pattern in 1-2 sentences>",
-  "prediction": "<likely next-month behaviour>",
-  "rootCauses": ["<possible cause 1>", "<possible cause 2>"],
-  "recommendations": ["<HR action 1>", "<HR action 2>"],
-  "burnoutRisk": "<low|medium|high>"
+  "riskLevel": "low",
+  "riskScore": 20,
+  "pattern": "Observed attendance pattern",
+  "prediction": "Likely next-month behaviour",
+  "rootCauses": ["cause1", "cause2"],
+  "recommendations": ["action1", "action2"],
+  "burnoutRisk": "low"
 }`;
 
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 800,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
-  return JSON.parse(text);
+  return askClaudeJSON(prompt, 800);
 };
 
-// ─── AI FEATURE 5: Interview Conversation Analyzer ───────────────────────────
+// Interview Conversation Analyzer
 export const analyzeInterviewConversation = async (transcript, candidateName, jobTitle) => {
   const prompt = `You are an expert interview analyst. Analyze this interview transcript and return ONLY valid JSON.
 
@@ -149,85 +163,83 @@ ROLE: ${jobTitle}
 TRANSCRIPT:
 ${transcript}
 
-Return ONLY this JSON (no markdown):
+Return ONLY this JSON:
 {
-  "overallScore": <0-100>,
-  "communicationScore": <0-100>,
-  "technicalScore": <0-100>,
-  "confidenceScore": <0-100>,
-  "cultureFitScore": <0-100>,
-  "summary": "<3-4 sentence professional assessment>",
-  "keyStrengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
-  "redFlags": ["<concern 1>", "<concern 2>"],
-  "standoutMoments": ["<impressive moment 1>", "<impressive moment 2>"],
-  "recommendation": "<hire|maybe|reject>",
-  "nextSteps": "<recommended next action>",
-  "sentimentAnalysis": { "positive": <0-100>, "neutral": <0-100>, "negative": <0-100> }
+  "overallScore": 80,
+  "communicationScore": 85,
+  "technicalScore": 78,
+  "confidenceScore": 82,
+  "cultureFitScore": 80,
+  "summary": "3-4 sentence professional assessment",
+  "keyStrengths": ["strength1", "strength2", "strength3"],
+  "redFlags": ["concern1", "concern2"],
+  "standoutMoments": ["moment1", "moment2"],
+  "recommendation": "hire",
+  "nextSteps": "Recommended next action",
+  "sentimentAnalysis": {
+    "positive": 70,
+    "neutral": 25,
+    "negative": 5
+  }
 }`;
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514', max_tokens: 1500,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
-  return JSON.parse(text);
+
+  return askClaudeJSON(prompt, 1500);
 };
 
-// ─── AI FEATURE 6: AI Interview Question Generator ───────────────────────────
+// Interview Question Generator
 export const generateInterviewQuestions = async (jobTitle, department, skills, experienceLevel) => {
-  const prompt = `You are a senior technical interviewer. Generate a structured interview script.
+  const prompt = `You are a senior technical interviewer. Generate a structured interview script and return ONLY valid JSON.
 
-ROLE: ${jobTitle} | DEPARTMENT: ${department}
-SKILLS: ${skills.join(', ')} | LEVEL: ${experienceLevel}
+ROLE: ${jobTitle}
+DEPARTMENT: ${department}
+SKILLS: ${skills.join(', ')}
+LEVEL: ${experienceLevel}
 
-Return ONLY valid JSON (no markdown):
+Return ONLY this JSON:
 {
-  "opening": "<warm 2-sentence opening>",
+  "opening": "Warm opening statement",
   "questions": [
     {
-      "category": "<technical|behavioral|situational|culture>",
-      "question": "<interview question>",
-      "followUp": "<follow-up probe>",
-      "goodAnswer": "<what a strong answer looks like>",
-      "redFlag": "<what a bad answer looks like>"
+      "category": "technical",
+      "question": "Interview question",
+      "followUp": "Follow-up question",
+      "goodAnswer": "Strong answer explanation",
+      "redFlag": "Weak answer warning"
     }
   ],
-  "closing": "<professional closing statement>",
-  "evaluationCriteria": ["<criterion 1>", "<criterion 2>", "<criterion 3>"]
+  "closing": "Professional closing statement",
+  "evaluationCriteria": ["criterion1", "criterion2", "criterion3"]
 }
-Generate exactly 8 questions: 3 technical, 2 behavioral, 2 situational, 1 culture.`;
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514', max_tokens: 2000,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
-  return JSON.parse(text);
+
+Generate exactly 8 questions.`;
+
+  return askClaudeJSON(prompt, 2000);
 };
 
-// ─── AI FEATURE 7: Voice Screening Evaluator ─────────────────────────────────
+// Voice Screening Evaluator
 export const evaluateVoiceScreening = async (responses, candidateName, jobTitle) => {
-  const formatted = responses.map((r, i) => `Q${i+1}: ${r.question}\nA${i+1}: ${r.answer}`).join('\n\n');
-  const prompt = `You are an AI recruiter conducting initial candidate screening. Evaluate these Q&A responses.
+  const formatted = responses
+    .map((r, i) => `Q${i + 1}: ${r.question}\nA${i + 1}: ${r.answer}`)
+    .join('\n\n');
+
+  const prompt = `You are an AI recruiter. Evaluate these screening responses and return ONLY valid JSON.
 
 CANDIDATE: ${candidateName}
 ROLE: ${jobTitle}
 
-SCREENING RESPONSES:
+RESPONSES:
 ${formatted}
 
-Return ONLY valid JSON (no markdown):
+Return ONLY this JSON:
 {
-  "screeningScore": <0-100>,
-  "verdict": "<proceed|hold|reject>",
-  "summary": "<2-3 sentence screening summary>",
-  "positives": ["<positive 1>", "<positive 2>"],
-  "concerns": ["<concern 1>"],
-  "recommendedInterviewType": "<technical|hr|panel|skip_to_offer>",
-  "notesForHR": "<internal notes for HR team>"
+  "screeningScore": 80,
+  "verdict": "proceed",
+  "summary": "2-3 sentence screening summary",
+  "positives": ["positive1", "positive2"],
+  "concerns": ["concern1"],
+  "recommendedInterviewType": "technical",
+  "notesForHR": "Internal notes"
 }`;
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const text = msg.content[0].text.trim().replace(/```json|```/g, '').trim();
-  return JSON.parse(text);
+
+  return askClaudeJSON(prompt, 1000);
 };
