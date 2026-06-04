@@ -85,7 +85,7 @@ export default function RecruitmentPage() {
               style={{ background: activeJob?._id === j._id ? undefined : 'var(--surface-2)' }}>
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">{j.title}</p>
+                  <p className="text-sm font-semibold text-black truncate">{j.title}</p>
                   <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{j.department} · {j.location}</p>
                 </div>
                 <Badge status={j.status} />
@@ -111,7 +111,7 @@ export default function RecruitmentPage() {
           ) : (
             <div className="space-y-3">
               <div className="flex items-center justify-between gap-3 flex-wrap">
-                <p className="text-sm font-semibold text-white">{activeJob.title} — Candidates ({candidates.length})</p>
+                <p className="text-sm font-semibold text-black">{activeJob.title} — Candidates ({candidates.length})</p>
                 <div className="flex items-center gap-2">
                   <select value={stageFilter} onChange={e => setStageFilter(e.target.value)} className="select w-36 text-xs">
                     <option value="all">All Stages</option>
@@ -130,7 +130,7 @@ export default function RecruitmentPage() {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <p className="font-semibold text-white">{c.name}</p>
+                          <p className="font-semibold text-black">{c.name}</p>
                           {c.aiScore != null && (
                             <span className={`text-xs font-black px-2 py-0.5 rounded-lg ${c.aiScore >= 70 ? 'text-emerald-400 bg-emerald-400/10' : c.aiScore >= 45 ? 'text-amber-400 bg-amber-400/10' : 'text-red-400 bg-red-400/10'}`}>
                               AI Score: {c.aiScore}%

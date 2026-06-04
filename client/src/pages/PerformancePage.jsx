@@ -16,7 +16,7 @@ const DEFAULT_KPIS = [
 const PageLoader = () => <div className="page-loader">Loading...</div>;
 
 const Empty = ({ message }) => (
-  <div className="card p-6 text-center text-gray-500">{message}</div>
+  <div className="card p-6 text-center text-gray-900">{message}</div>
 );
 
 const Badge = ({ status }) => (
@@ -195,7 +195,7 @@ export default function PerformancePage() {
                       <p className="text-sm font-semibold">
                         {review.period} {review.year}
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-gray-900">
                         Reviewer: {review.reviewer?.firstName || 'N/A'} {review.reviewer?.lastName || ''}
                       </p>
                     </div>
@@ -235,7 +235,7 @@ export default function PerformancePage() {
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-4">
                     {review.kpis.map((kpi, index) => (
                       <div key={index} className="p-3 rounded-xl bg-slate-50 border">
-                        <p className="text-xs text-gray-500">{kpi.name}</p>
+                        <p className="text-xs text-gray-900">{kpi.name}</p>
                         <p className="text-xl font-black mt-1">
                           {kpi.score}
                           <span className="text-xs font-normal text-gray-400">/10</span>
@@ -337,12 +337,12 @@ export default function PerformancePage() {
           </div>
 
           <div className="space-y-3">
-            <p className="text-xs font-semibold text-gray-500 uppercase">KPI Scores</p>
+            <p className="text-xs font-semibold text-gray-900 uppercase">KPI Scores</p>
 
             {form.kpis.map((kpi, index) => (
               <div key={index} className="p-3 rounded-xl bg-slate-50 border">
                 <p className="text-sm font-semibold">{kpi.name}</p>
-                <p className="text-xs text-gray-400">{kpi.description}</p>
+                <p className="text-xs text-gray-900">{kpi.description}</p>
 
                 <div className="grid grid-cols-2 gap-3 mt-3">
                   <input
