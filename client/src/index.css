@@ -14,9 +14,9 @@
     --border: rgba(15,23,42,0.08);
     --border-hover: rgba(15,23,42,0.16);
     --text-1: #0f172a;
-    --text-2: #212c3b;
-    --text-3: #2c333c;
-    --text-4: #333a42;
+    --text-2: #111419;
+    --text-3: #1b1f25;
+    --text-4: #14171b;
   }
   * { box-sizing: border-box; }
   html { @apply scroll-smooth; }
