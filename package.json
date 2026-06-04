@@ -8,5 +8,8 @@
     "dev:client": "cd client && npm run dev",
     "seed": "cd server && node utils/seed.js",
     "build": "cd client && npm run build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1"
   }
 }
