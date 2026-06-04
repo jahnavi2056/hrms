@@ -63,13 +63,44 @@ function TranscriptAnalyzer() {
   const analyze = async () => {
     if (!transcript.trim()) return toast.error('Paste the interview transcript first');
     if (!selectedInterview) return toast.error('Select an interview');
-    setLoading(true); setResult(null);
-    try {
-      const { data } = await api.post(`/ai/interview/${selectedInterview}/analyze`, { transcript });
-      setResult(data);
+
+    setLoading(true);
+    setResult(null);
+
+    setTimeout(() => {
+      const mockAnalysis = {
+        overallScore: 95,
+        communicationScore: 94,
+        technicalScore: 97,
+        confidenceScore: 93,
+        cultureFitScore: 92,
+        recommendation: 'hire',
+        summary:
+          'The candidate demonstrated exceptional AI expertise, strong system design knowledge, and excellent communication skills. Responses reflected deep understanding of LLMs, RAG, AI architecture, and enterprise-scale AI deployment. The candidate is highly suitable for the Senior AI Developer role.',
+        keyStrengths: [
+          'Advanced AI/ML knowledge',
+          'Strong full-stack development skills',
+          'Excellent understanding of LLM and RAG systems',
+          'Good system design and cloud deployment awareness',
+          'Leadership and mentoring potential'
+        ],
+        redFlags: [
+          'Can explain MLOps monitoring and model observability in more depth'
+        ],
+        sentimentAnalysis: {
+          positive: 82,
+          neutral: 15,
+          negative: 3
+        },
+        nextSteps: 'Proceed directly to final management or HR round.',
+        fitAnalysis:
+          'Candidate is a strong fit for the Senior AI Developer role with both technical depth and leadership readiness.'
+      };
+
+      setResult(mockAnalysis);
+      setLoading(false);
       toast.success('Analysis complete!');
-    } catch (e) { toast.error(e.response?.data?.error || 'Analysis failed'); }
-    finally { setLoading(false); }
+    }, 1800);
   };
 
   const recColor = { hire:'green', maybe:'amber', reject:'red' };
@@ -136,7 +167,7 @@ function TranscriptAnalyzer() {
               <div className="w-16 h-16 rounded-full border-4 border-blue-100 border-t-blue-500 animate-spin"/>
             </div>
             <p className="font-semibold text-gray-700">Analyzing interview...</p>
-            <p className="text-sm text-gray-400">Claude AI is evaluating communication, technical depth, and culture fit</p>
+            <p className="text-sm text-gray-400">Demo AI is evaluating communication, technical depth, and culture fit</p>
           </div>
         )}
 
@@ -302,12 +333,33 @@ function VoiceScreening() {
 
   const submitScreening = async (resp) => {
     setLoading(true);
-    try {
-      const { data } = await api.post('/ai/interview/voice-screen', { candidateId, responses: resp });
-      setResult(data); setStep('result');
-      speak(`Screening complete. ${data.verdict === 'proceed' ? 'This candidate has been recommended to proceed.' : 'Screening analysis is ready for your review.'}`);
-    } catch (e) { toast.error('Screening analysis failed'); setStep('setup'); }
-    finally { setLoading(false); }
+
+    setTimeout(() => {
+      const mockResult = {
+        verdict: 'proceed',
+        screeningScore: 92,
+        summary:
+          'Candidate gave confident and relevant answers. Communication, technical clarity, and role understanding are strong for the Senior AI Developer position.',
+        positives: [
+          'Strong AI and full-stack knowledge',
+          'Clear communication',
+          'Good confidence level',
+          'Relevant project experience'
+        ],
+        concerns: [
+          'Can explain MLOps monitoring in more depth'
+        ],
+        recommendedInterviewType: 'final_hr_round',
+        notesForHR:
+          'Candidate is suitable for the next interview round. Discuss salary expectation, notice period, and leadership experience.'
+      };
+
+      setResult(mockResult);
+      setStep('result');
+      setLoading(false);
+      toast.success('Voice screening completed!');
+      speak('Screening complete. This candidate has been recommended to proceed.');
+    }, 1800);
   };
 
   const toggleListen = () => {
@@ -425,7 +477,7 @@ function VoiceScreening() {
             <div className="absolute inset-0 flex items-center justify-center text-2xl">🧠</div>
           </div>
           <p className="text-lg font-bold text-gray-900">AI Evaluating Responses...</p>
-          <p className="text-sm text-gray-400">Claude is analyzing communication quality, relevance, and cultural fit</p>
+          <p className="text-sm text-gray-400">Demo AI is analyzing communication quality, relevance, and cultural fit</p>
         </div>
       )}
 
@@ -499,12 +551,86 @@ function QuestionGenerator() {
 
   const generate = async () => {
     if (!jobId) return toast.error('Select a job');
-    setLoading(true); setResult(null);
-    try {
-      const { data } = await api.get(`/ai/interview/questions/${jobId}`, { params: { experienceLevel: level } });
-      setResult(data); toast.success('Interview script generated!');
-    } catch (e) { toast.error(e.response?.data?.error || 'Generation failed'); }
-    finally { setLoading(false); }
+
+    setLoading(true);
+    setResult(null);
+
+    setTimeout(() => {
+      const mockScript = {
+        opening:
+          'Welcome to the Senior AI Developer interview. We will discuss your AI experience, full-stack skills, system design knowledge, and leadership readiness.',
+        questions: [
+          {
+            category: 'technical',
+            question: 'Explain the difference between LLM and RAG.',
+            followUp: 'How would you implement RAG in an HRMS platform?',
+            goodAnswer:
+              'Candidate explains that an LLM generates responses from trained knowledge, while RAG retrieves external documents or database context before answering.',
+            redFlag:
+              'Candidate cannot explain retrieval, embeddings, or vector databases.'
+          },
+          {
+            category: 'technical',
+            question: 'How would you design an AI-powered resume screening system?',
+            followUp: 'How would you reduce bias in AI screening?',
+            goodAnswer:
+              'Candidate explains resume parsing, skill extraction, semantic matching, scoring, explainability, and bias control.',
+            redFlag:
+              'Candidate only explains keyword matching.'
+          },
+          {
+            category: 'situational',
+            question: 'How would you scale an AI recruitment platform?',
+            followUp: 'Which backend and deployment strategy would you use?',
+            goodAnswer:
+              'Candidate discusses APIs, queues, caching, database optimization, cloud deployment, monitoring, and auto-scaling.',
+            redFlag:
+              'Candidate gives only frontend-level explanation.'
+          },
+          {
+            category: 'technical',
+            question: 'What are embeddings in AI applications?',
+            followUp: 'Where would you store embeddings?',
+            goodAnswer:
+              'Candidate explains vector representation, semantic similarity, and vector databases like FAISS, Pinecone, or Chroma.',
+            redFlag:
+              'Candidate does not understand semantic search.'
+          },
+          {
+            category: 'behavioral',
+            question: 'Tell me about a challenging AI project you worked on.',
+            followUp: 'What was your exact contribution?',
+            goodAnswer:
+              'Candidate explains the problem, action, tools used, and final impact clearly.',
+            redFlag:
+              'Candidate gives vague answers without ownership.'
+          },
+          {
+            category: 'culture',
+            question: 'How would you mentor junior developers in an AI project?',
+            followUp: 'How would you review their code and model outputs?',
+            goodAnswer:
+              'Candidate mentions mentoring, code reviews, documentation, testing, responsible AI, and teamwork.',
+            redFlag:
+              'Candidate has no leadership or review approach.'
+          }
+        ],
+        closing:
+          'Thank you for attending the interview. Our team will evaluate your responses and get back to you with the next steps.',
+        evaluationCriteria: [
+          'AI/ML Knowledge',
+          'LLM and RAG Understanding',
+          'Full Stack Development',
+          'System Design',
+          'Communication',
+          'Leadership Readiness'
+        ]
+      };
+
+      setResult(mockScript);
+      setLoading(false);
+      toast.success('Interview script generated!');
+    }, 1800);
   };
 
   const speak = (text) => {
@@ -658,7 +784,7 @@ export default function AIInterviewPage() {
           <div>
             <h1 className="text-xl font-black text-gray-900 flex items-center gap-2">
               AI Interview Intelligence
-              <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background:'linear-gradient(135deg,rgba(37,99,235,0.1),rgba(124,58,237,0.1))', color:'#4f46e5', border:'1px solid rgba(99,102,241,0.2)' }}>Powered by Claude</span>
+              <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background:'linear-gradient(135deg,rgba(37,99,235,0.1),rgba(124,58,237,0.1))', color:'#4f46e5', border:'1px solid rgba(99,102,241,0.2)' }}>Demo AI Mode</span>
             </h1>
             <p className="text-sm text-gray-500 mt-0.5">AI-powered transcript analysis · Voice screening · Smart question generation</p>
           </div>

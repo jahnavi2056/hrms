@@ -1,13 +1,26 @@
 import { Router } from 'express';
-import { checkIn, checkOut, getMyAttendance, getTodayRecord, getTeamAttendance, bulkMarkAttendance, getAttendanceSummary } from '../controllers/attendanceController.js';
+import {
+  checkIn,
+  checkOut,
+  getMyAttendance,
+  getTodayRecord,
+  getTeamAttendance,
+  bulkMarkAttendance,
+  getAttendanceSummary
+} from '../controllers/attendanceController.js';
+
 import { protect, authorize } from '../middleware/auth.js';
+
 const router = Router();
+
 router.use(protect);
+
 router.post('/checkin', checkIn);
 router.post('/checkout', checkOut);
 router.get('/today', getTodayRecord);
 router.get('/my', getMyAttendance);
-router.get('/team', authorize('admin','senior_manager','hr_recruiter'), getTeamAttendance);
-router.post('/bulk', authorize('admin','hr_recruiter'), bulkMarkAttendance);
+router.get('/team', authorize('admin', 'senior_manager', 'hr_recruiter'), getTeamAttendance);
+router.post('/bulk', authorize('admin', 'hr_recruiter'), bulkMarkAttendance);
 router.get('/summary/:employeeId/:month/:year', getAttendanceSummary);
+
 export default router;

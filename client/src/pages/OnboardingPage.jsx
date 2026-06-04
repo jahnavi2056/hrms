@@ -79,7 +79,7 @@ export default function OnboardingPage() {
 
       {isHR && (
         <div className="grid grid-cols-4 gap-4">
-          {[['Total',stats.total,'📋','text-white'],['In Progress',stats.inProgress,'⏳','text-yellow-400'],['Completed',stats.completed,'✅','text-green-400'],['Not Started',stats.notStarted,'🔜','text-blue-400']].map(([label,val,icon,color]) => (
+          {[['Total',stats.total,'📋','text-black'],['In Progress',stats.inProgress,'⏳','text-yellow-400'],['Completed',stats.completed,'✅','text-green-400'],['Not Started',stats.notStarted,'🔜','text-blue-400']].map(([label,val,icon,color]) => (
             <div key={label} className="card p-5">
               <div className="flex items-center justify-between">
                 <div>
@@ -108,7 +108,7 @@ export default function OnboardingPage() {
                   {o.employee?.firstName?.[0]}{o.employee?.lastName?.[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">{o.employee?.firstName} {o.employee?.lastName}</p>
+                  <p className="text-sm font-semibold text-black truncate">{o.employee?.firstName} {o.employee?.lastName}</p>
                   <p className="text-xs truncate" style={{ color:'var(--text-3)' }}>{o.employee?.department}</p>
                 </div>
                 <span className={`text-xs px-2 py-1 rounded-lg font-semibold ${o.status === 'completed' ? 'text-green-400 bg-green-400/10' : o.status === 'in_progress' ? 'text-yellow-400 bg-yellow-400/10' : 'text-blue-400 bg-blue-400/10'}`}>
@@ -118,7 +118,7 @@ export default function OnboardingPage() {
               <div className="mt-3">
                 <div className="flex justify-between text-xs mb-1">
                   <span style={{ color:'var(--text-3)' }}>Progress</span>
-                  <span className="font-semibold text-white">{o.progress}%</span>
+                  <span className="font-semibold text-black">{o.progress}%</span>
                 </div>
                 <div className="h-1.5 rounded-full overflow-hidden" style={{ background:'#f8fafc' }}>
                   <div className="h-full rounded-full bg-brand-500 transition-all" style={{ width:`${o.progress}%` }} />
@@ -136,7 +136,7 @@ export default function OnboardingPage() {
               <div className="card p-5">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-lg font-bold text-white">{activeBoard.employee?.firstName} {activeBoard.employee?.lastName}</h2>
+                    <h2 className="text-lg font-bold text-black">{activeBoard.employee?.firstName} {activeBoard.employee?.lastName}</h2>
                     <p className="text-sm" style={{ color:'var(--text-3)' }}>
                       {activeBoard.employee?.department} · Started {activeBoard.startDate ? new Date(activeBoard.startDate).toLocaleDateString() : 'N/A'}
                     </p>
@@ -169,10 +169,10 @@ export default function OnboardingPage() {
                         <button
                           onClick={() => taskMut.mutate({ onboardingId: activeBoard._id, taskId: task._id, completed: !task.completed })}
                           className={`w-5 h-5 mt-0.5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all ${task.completed ? 'bg-green-500 border-green-500' : 'border-white/20 hover:border-brand-400'}`}>
-                          {task.completed && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                          {task.completed && <svg className="w-3 h-3 text-black\" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                         </button>
                         <div className="flex-1 min-w-0">
-                          <p className={`text-sm font-medium ${task.completed ? 'line-through text-gray-500' : 'text-white'}`}>{task.title}</p>
+                          <p className={`text-sm font-medium ${task.completed ? 'line-through text-gray-900' : 'text-black'}`}>{task.title}</p>
                           {task.description && <p className="text-xs mt-0.5" style={{ color:'var(--text-3)' }}>{task.description}</p>}
                         </div>
                         <span className={`text-xs px-2 py-0.5 rounded font-semibold flex-shrink-0 ${task.priority === 'high' ? 'text-red-400 bg-red-400/10' : task.priority === 'medium' ? 'text-yellow-400 bg-yellow-400/10' : 'text-green-400 bg-green-400/10'}`}>
