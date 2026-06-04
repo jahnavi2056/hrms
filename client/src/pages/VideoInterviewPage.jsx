@@ -110,7 +110,7 @@ export default function VideoInterviewPage() {
           <div key={iv._id} className="card p-5 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-bold text-white">{iv.candidate?.name}</p>
+                <p className="font-bold text-black">{iv.candidate?.name}</p>
                 <p className="text-sm" style={{ color:'var(--text-3)' }}>{iv.job?.title} · {iv.job?.department}</p>
               </div>
               <div className="flex gap-2 flex-shrink-0">
@@ -122,12 +122,12 @@ export default function VideoInterviewPage() {
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="p-3 rounded-xl" style={{ background:'#f8fafc' }}>
                 <p className="text-xs mb-1" style={{ color:'var(--text-3)' }}>Date & Time</p>
-                <p className="font-semibold text-white">{new Date(iv.scheduledAt).toLocaleDateString()}</p>
+                <p className="font-semibold text-black">{new Date(iv.scheduledAt).toLocaleDateString()}</p>
                 <p className="text-xs text-brand-400">{new Date(iv.scheduledAt).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}</p>
               </div>
               <div className="p-3 rounded-xl" style={{ background:'#f8fafc' }}>
                 <p className="text-xs mb-1" style={{ color:'var(--text-3)' }}>Duration</p>
-                <p className="font-semibold text-white">{iv.duration} minutes</p>
+                <p className="font-semibold text-black">{iv.duration} minutes</p>
                 <p className="text-xs text-brand-400">{iv.interviewers?.length || 0} interviewer(s)</p>
               </div>
             </div>
@@ -152,7 +152,7 @@ export default function VideoInterviewPage() {
                     {[1,2,3,4,5].map(s => <span key={s} className={`text-sm ${s <= iv.feedback.rating ? 'text-yellow-400' : 'text-gray-600'}`}>★</span>)}
                   </div>
                 </div>
-                <p className="text-xs text-white">{iv.feedback.notes}</p>
+                <p className="text-xs text-black">{iv.feedback.notes}</p>
                 <span className={`text-xs px-2 py-0.5 rounded font-semibold mt-2 inline-block ${iv.feedback.recommendation === 'hire' ? 'text-green-400 bg-green-400/10' : iv.feedback.recommendation === 'reject' ? 'text-red-400 bg-red-400/10' : 'text-yellow-400 bg-yellow-400/10'}`}>
                   {iv.feedback.recommendation}
                 </span>
